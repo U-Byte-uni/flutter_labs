@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quiz/Controllers/education_controller.dart';
 
 class EducationFormScreen extends StatefulWidget {
+  const EducationFormScreen({super.key});
+
   @override
   State<EducationFormScreen> createState() => _EducationFormScreenState();
 }
