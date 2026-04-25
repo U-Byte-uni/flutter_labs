@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/Controllers/supabase_controller.dart';
+import 'package:quiz/Controllers/education_controller.dart';
+import 'package:quiz/Screens/education_form_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SupabaseController.initialize();
+  await EducationController.initialize();
   runApp(const MyApp());
 }
 
@@ -13,44 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final controller = SupabaseController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Supabase')),
-      body: Column(
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: ()  {
-                controller.fetchUsers();
-              },
-              child: const Text('Fetch Users'),
-            ),
-          ),
-
-           ElevatedButton(
-            onPressed: ()  {
-              controller.saveData();
-            },
-            child: const Text('Save data'),
-          ),
-        ],
-      ),
+      title: 'Education Form',
+      home: EducationFormScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
