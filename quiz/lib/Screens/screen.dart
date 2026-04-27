@@ -9,10 +9,11 @@ class EducationFormScreen extends StatefulWidget {
 }
 
 class _EducationFormScreenState extends State<EducationFormScreen> {
-  final controller = EducationController();
-  final nameController = TextEditingController();
-  final deptController = TextEditingController();
-  final universityController = TextEditingController();
+  EducationController controller = EducationController();
+  TextEditingController name = TextEditingController();
+  TextEditingController route = TextEditingController();
+  TextEditingController age = TextEditingController();
+  TextEditingController vehicle = TextEditingController();
   bool isLoading = false;
   bool showRecords = false;
 
@@ -24,9 +25,10 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
   }
 
   void saveData() async {
-    if (nameController.text.isEmpty ||
-        deptController.text.isEmpty ||
-        universityController.text.isEmpty) {
+    if (name.text.isEmpty ||
+        route.text.isEmpty ||
+        age.text.isEmpty ||
+        vehicle.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('All fields are required')),
       );
@@ -36,17 +38,19 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
     setState(() => isLoading = true);
 
     bool success = await controller.saveEducation(
-      nameController.text,
-      deptController.text,
-      universityController.text,
+      name.text,
+      route.text,
+      age.text,
+      vehicle.text,
     );
 
     setState(() => isLoading = false);
 
     if (success) {
-      nameController.clear();
-      deptController.clear();
-      universityController.clear();
+      name.clear();
+      route.clear();
+      age.clear();
+      vehicle.clear();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Saved successfully!')),
       );
@@ -61,24 +65,29 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Form'),
-      backgroundColor: Colors.blue,),
+        backgroundColor: Colors.blue,),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
-              controller: nameController,
-              decoration: InputDecoration(hintText: 'Student Name'),
+              controller: name,
+              decoration: InputDecoration(hintText: 'Driver Name'),
             ),
             SizedBox(height: 12),
             TextField(
-              controller: deptController,
-              decoration: InputDecoration(hintText: 'Department'),
+              controller: route,
+              decoration: InputDecoration(hintText: 'Driver Route'),
             ),
             SizedBox(height: 12),
             TextField(
-              controller: universityController,
-              decoration: InputDecoration(hintText: 'University'),
+              controller: age,
+              decoration: InputDecoration(hintText: 'Driver Age'),
+            ),
+            SizedBox(height: 12),
+            TextField(
+              controller: vehicle,
+              decoration: InputDecoration(hintText: 'Vehicle Name'),
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -100,8 +109,8 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
                   itemBuilder: (context, index) {
                     final item = controller.educationList[index];
                     return ListTile(
-                      title: Text(item.studentName),
-                      subtitle: Text('${item.dept} - ${item.university}'),
+                      title: Text(item.driverName),
+                      subtitle: Text('${item.driverRoute} - ${item.vehicleName}'),
                     );
                   },
                 ),

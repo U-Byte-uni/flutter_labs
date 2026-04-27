@@ -12,15 +12,16 @@ class EducationController {
   final supabase = Supabase.instance.client;
   List<EducationModel> educationList = [];
 
-  Future<bool> saveEducation(String name, String dept, String university) async {
+  Future<bool> saveEducation(String name, String route, String age, String vehicle) async {
     try {
-      final education = EducationModel(
-        studentName: name.trim(),
-        dept: dept.trim(),
-        university: university.trim(),
+      EducationModel education = EducationModel(
+        driverName: name.trim(),
+        driverRoute: route.trim(),
+        driverAge: age.trim(),
+        vehicleName: vehicle.trim(),
       );
 
-      await supabase.from('education').insert(education.toJson());
+      await supabase.from('drivers').insert(education.toJson());
       return true;
     } catch (e) {
       return false;
@@ -30,7 +31,7 @@ class EducationController {
   Future<void> fetchEducationList() async {
     try {
       final data = await supabase
-          .from('education')
+          .from('drivers')
           .select()
           .order('id', ascending: false);
 
