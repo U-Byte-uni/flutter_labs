@@ -1,11 +1,11 @@
-class EducationModel {
+class DriverModel {
   final int? id;
   final String driverName;
   final String driverRoute;
-  final String driverAge;
+  final int driverAge;           // Changed from String to int
   final String vehicleName;
 
-  EducationModel({
+  DriverModel({
     this.id,
     required this.driverName,
     required this.driverRoute,
@@ -24,12 +24,12 @@ class EducationModel {
   }
 
   // Create model from JSON (optional, for fetching data)
-  factory EducationModel.fromJson(Map<String, dynamic> json) {
-    return EducationModel(
+  factory DriverModel.fromJson(Map<String, dynamic> json) {
+    return DriverModel(
       id: json['id'],
       driverName: json['driver_name'] ?? '',
       driverRoute: json['driver_route'] ?? '',
-      driverAge: json['driver_age'] ?? '',
+      driverAge: json['driver_age'] ?? 0,        // Changed to 0 (int default)
       vehicleName: json['vehicle_name'] ?? '',
     );
   }

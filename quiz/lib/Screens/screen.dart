@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/Controllers/education_controller.dart';
+import 'package:quiz/Controllers/controller.dart';
 
-class EducationFormScreen extends StatefulWidget {
-  const EducationFormScreen({super.key});
+class FormWidget extends StatefulWidget {
+  const FormWidget({super.key});
 
   @override
-  State<EducationFormScreen> createState() => _EducationFormScreenState();
+  State<FormWidget> createState() => _FormWidgetState();
 }
 
-class _EducationFormScreenState extends State<EducationFormScreen> {
-  EducationController controller = EducationController();
+class _FormWidgetState extends State<FormWidget> {
+  DriverController controller = DriverController();
   TextEditingController name = TextEditingController();
   TextEditingController route = TextEditingController();
   TextEditingController age = TextEditingController();
@@ -18,7 +18,7 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
   bool showRecords = false;
 
   void loadData() async {
-    await controller.fetchEducationList();
+    await controller.fetchDriverList();
     setState(() {
       showRecords = true;
     });
@@ -37,7 +37,7 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
 
     setState(() => isLoading = true);
 
-    bool success = await controller.saveEducation(
+    bool success = await controller.saveDriver(
       name.text,
       route.text,
       age.text,
@@ -102,12 +102,12 @@ class _EducationFormScreenState extends State<EducationFormScreen> {
             SizedBox(height: 12),
             if (showRecords)
               Expanded(
-                child: controller.educationList.isEmpty
+                child: controller.driverList.isEmpty
                     ? Center(child: Text('No records'))
                     : ListView.builder(
-                  itemCount: controller.educationList.length,
+                  itemCount: controller.driverList.length,
                   itemBuilder: (context, index) {
-                    final item = controller.educationList[index];
+                    final item = controller.driverList[index];
                     return ListTile(
                       title: Text(item.driverName),
                       subtitle: Text('${item.driverRoute} - ${item.vehicleName}'),

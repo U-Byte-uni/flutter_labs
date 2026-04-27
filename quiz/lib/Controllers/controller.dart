@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:quiz/Models/education_model.dart';
+import 'package:quiz/Models/model.dart';
 
-class EducationController {
+class DriverController {
   static Future<void> initialize() async {
     await Supabase.initialize(
       url: 'https://zvgjlkrymuqdwntrsegx.supabase.co',
@@ -10,36 +10,40 @@ class EducationController {
   }
 
   final supabase = Supabase.instance.client;
-  List<EducationModel> educationList = [];
+  List<DriverModel> driverList = [];
 
-  Future<bool> saveEducation(String name, String route, String age, String vehicle) async {
+  Future<bool> saveDriver(String name, String route, String age, String vehicle) async {
     try {
-      EducationModel education = EducationModel(
+      DriverModel driver = DriverModel(
         driverName: name.trim(),
         driverRoute: route.trim(),
-        driverAge: age.trim(),
+        driverAge: int.parse(age.trim()),    // Convert String to int
         vehicleName: vehicle.trim(),
       );
 
-      await supabase.from('drivers').insert(education.toJson());
+      await supabase.from('drivers').insert(driver.toJson());
       return true;
     } catch (e) {
+      print('Save error: $e');
       return false;
     }
   }
 
-  Future<void> fetchEducationList() async {
+  Future<void> fetchDriverList() async {
     try {
-      final data = await supabase
+      final response = await supabase
           .from('drivers')
           .select()
           .order('id', ascending: false);
 
-      educationList = (data as List)
-          .map((json) => EducationModel.fromJson(json))
+      driverList = (response as List)
+          .map((json) => DriverModel.fromJson(json))
           .toList();
+
+      print('Fetched ${driverList.length} drivers');
     } catch (e) {
-      educationList = [];
+      print('Fetch error: $e');
+      driverList = [];
     }
   }
 }
